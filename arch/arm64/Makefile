@@ -185,12 +185,15 @@ Image.%: Image
 zinstall install:
 	$(Q)$(MAKE) $(build)=$(boot) $@
 
-%.dtb: scripts
+%.dtb: scripts $(DRVGEN_FILE_LIST)
+	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
+
+%.dtbo: scripts $(DRVGEN_FILE_LIST)
 	$(Q)$(MAKE) $(build)=$(boot)/dts $(boot)/dts/$@
 
 PHONY += dtbs dtbs_install
 
-dtbs: prepare scripts
+dtbs: prepare scripts drvgen
 	$(Q)$(MAKE) $(build)=$(boot)/dts
 
 dtbs_install:
